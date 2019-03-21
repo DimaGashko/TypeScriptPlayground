@@ -8,16 +8,16 @@ export default function fillMinesMap(minesMap: string[]) {
    const jSize = minesMap[0].length;
 
    const digitsMap: number[][] = new Array(iSize);
-   const resultMap: string[][] = new Array(iSize);
+   const charsMap: string[][] = new Array(iSize);
    
    for (let i = 0; i < iSize; i++) {
       digitsMap[i] = new Array(jSize).fill(0);
-      resultMap[i] = new Array(jSize).fill('');
+      charsMap[i] = new Array(jSize).fill('');
    }
 
    for (let i = 0; i < iSize; i++) {
 		for (let j = 0; j < jSize; j++) {
-			if (minesMap[i][j] != '*') continue;
+			if (minesMap[i][j] !== '*') continue;
 
 			incrementMapCell(digitsMap, i + 1, j - 1);
 			incrementMapCell(digitsMap, i + 1, j + 1);
@@ -32,13 +32,20 @@ export default function fillMinesMap(minesMap: string[]) {
 
 	for (let i = 0; i < iSize; i++) {
 		for (let j = 0; j < jSize; j++) {
-			if (minesMap[i][j] == '*') continue;
-
-			resultMap[i][j] = digitsMap[i][j] + '';
+         if (minesMap[i][j] === '*') charsMap[i][j] = '*';
+         else charsMap[i][j] = digitsMap[i][j] + '';
 		}
-	}
+   }
+   
+   return charsMap.map(row => row.join(''));
 }
 
-function incrementMapCell(digitsMap: number[][], i: number, j: number) { 
+function incrementMapCell(map: number[][], i: number, j: number) { 
+   if (!map.length) return;
 
+	if (i < 0 || j < 0 || i >= map.length || j >= map[0].length) {
+		return;
+	}
+
+	map[i][j]++;
 }
