@@ -5,6 +5,9 @@ interface CustomElementConfig {
    useShadow?: boolean;
 }
 
+/**
+ * Decorator for a CustomElement
+ */
 export default function CustomElement(config: CustomElementConfig) {
    config.useShadow = config.useShadow || true;
    config.template = config.template || '';
